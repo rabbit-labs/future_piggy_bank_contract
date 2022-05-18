@@ -3,14 +3,14 @@ async function main() {
     const [deployer] = await ethers.getSigners();
   
     console.log(
-      "Deploying contracts with the account:",
+      "Deploying futuremessage contracts with the account:",
       await deployer.getAddress()
     );
     
     console.log("Account balance:", (await deployer.getBalance()).toString());
   
-    const Token = await ethers.getContractFactory("Token");
-    const token = await Token.deploy();
+    const FM = await ethers.getContractFactory("FutureMessage");
+    const token = await FM.deploy();
   
     await token.deployed();
   
