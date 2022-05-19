@@ -160,13 +160,6 @@ contract FutureMessage is ERC721Enumerable , Ownable {
 
 
     /**
-     * @dev See {IERC721Enumerable-totalSupply}.
-     */
-    function getUserTokenCount(address owner) public view returns (uint256) {
-        return _ownedTokens[owner].length;
-    }
-
-    /**
      * 获得一个用户的Token列表
      */
     function getTokenListByAddress(address owner,uint256 offset, uint256 limit) external view returns (FutureMsg[] memory result) {

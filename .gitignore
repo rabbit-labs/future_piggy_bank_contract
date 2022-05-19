@@ -1,4 +1,5 @@
 /dist
+hardhat.config.js
 
 # Logs
 logs
