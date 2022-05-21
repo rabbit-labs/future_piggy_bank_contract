@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+
 // import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -12,7 +14,7 @@ import "hardhat/console.sol";
 import "./ERC721Enumerable.sol";
 
 // This is the main building block for smart contracts.
-contract FutureMessage is ERC721Enumerable , Ownable {
+contract FutureMessage is ERC721Enumerable , Ownable  {
 
     /*
         定义每一个消息的类型，包含了存储的人，content内容，amount附言金额，end_time到期时间
@@ -36,7 +38,7 @@ contract FutureMessage is ERC721Enumerable , Ownable {
 
     uint mintPrice;
 
-    string _currentBaseURI = "https://futureme.io/token/";
+    string _currentBaseURI = "https://worker.future-piggy-bank.workers.dev/metadata/";
 
     /**
      * 合约构造函数
@@ -110,18 +112,11 @@ contract FutureMessage is ERC721Enumerable , Ownable {
         
         // 为了测试取款，因此在测试取款时候需要注释掉最低时间要求
         // require(block.timestamp <= (endTime - 31536000 + 3600), "FM: timestamp must large then 1 year"); 
-        console.log('debug01,prepare for transfer');
-        console.log('debug01,erc20,from',minter);
-        console.log('debug01,erc20,to',address(this));
-        console.log('debug01,erc20,amount',amount);
-        console.log('debug01,erc20,token_address',token_address);
 
         IERC20(token_address).transferFrom(minter, address(this), amount);
 
-        console.log('debug01,prepare for safeMintFM');
         uint256 tokenId = safeMintFM(minter,endTime,content,token_address,amount);
         
-        console.log('debug01,tokenId',tokenId);
 
         return tokenId;
     }
@@ -251,6 +246,9 @@ contract FutureMessage is ERC721Enumerable , Ownable {
         return _currentBaseURI;
     }
 
+    function setBaseURI(string memory uri) onlyOwner public {
+        _currentBaseURI = uri;
+    }
 
 }
 

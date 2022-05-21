@@ -48,6 +48,32 @@ describe("FutureMessage contract", function () {
 
     });
 
+    describe("测试 baseURI相关", function () {
+
+        it("测试 基本的baseURI要和预期一致", async function () {
+            
+            let endtime = getUnxtimeNow() + 365 * 86400;
+            let tokenId = await mintToken(addr1,endtime,'futuremessage1','0.2');
+            expect(tokenId).to.equal('1');
+
+            const tokenURI = await messageContractInterface.tokenURI(tokenId);
+            expect(tokenURI).to.equal('https://worker.future-piggy-bank.workers.dev/metadata/1');
+
+            //修改baseTokenURI
+            const ret = await messageContractInterface.connect(owner).setBaseURI('https://nft.future-piggy-bank.workers.dev/metadata/')
+            const tokenURI2 = await messageContractInterface.tokenURI(tokenId);
+            expect(tokenURI2).to.equal('https://nft.future-piggy-bank.workers.dev/metadata/1');
+
+            //非作者修改baseTokenURI
+            const ret2 = messageContractInterface.connect(addr1).setBaseURI('https://nft2.future-piggy-bank.workers.dev/metadata/')
+            await expectRevert(ret2, "Ownable: caller is not the owner");
+
+       
+        });
+
+    });
+
+
     describe("测试mintToken", function () {
 
         it("测试mint一个token并附上一定的eth", async function () {
