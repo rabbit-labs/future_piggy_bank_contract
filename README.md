@@ -1,4 +1,4 @@
-<div align="center"><img src="./docs/banner.png"></div>
+<div align="center"><img src="./docs/banner_logo.png"></div>
 
 # About Project 
 
