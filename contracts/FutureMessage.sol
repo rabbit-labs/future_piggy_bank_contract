@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 // import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 import "./ERC721Enumerable.sol";
 
 // This is the main building block for smart contracts.
@@ -89,7 +89,6 @@ contract FutureMessage is ERC721Enumerable , Ownable  {
         require(msg.value >= mintPrice, "FM: Insufficient value");
         require(block.timestamp >= (endTime - 315360000 + 3600), "FM: timestamp must less then 10 year");
 
-        // 为了测试取款，因此在测试取款时候需要注释掉最低时间要求
         // require(block.timestamp <= (endTime - 31536000 + 3600), "FM: timestamp must large then 1 year"); 
         uint256 saveAmount = msg.value - mintPrice;
 
@@ -110,7 +109,6 @@ contract FutureMessage is ERC721Enumerable , Ownable  {
         require(msg.value >= mintPrice, "FM: Insufficient value");
         require(block.timestamp >= (endTime - 315360000 + 3600), "FM: timestamp must less then 10 year");
         
-        // 为了测试取款，因此在测试取款时候需要注释掉最低时间要求
         // require(block.timestamp <= (endTime - 31536000 + 3600), "FM: timestamp must large then 1 year"); 
 
         IERC20(token_address).transferFrom(minter, address(this), amount);
@@ -212,9 +210,6 @@ contract FutureMessage is ERC721Enumerable , Ownable  {
             FutureMsg[] memory result = new FutureMsg[](0);
             return result;
         }
-        // console.log('_allTokens.length',_allTokens.length);
-        // console.log('offset',offset);
-        // console.log('limit',limit);
 
         uint256 total_supply = _allTokens.length;
         uint256[2] memory data = calcBeginAndEndIndex(total_supply,offset,limit);
